@@ -1,16 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import cv2
-import tensorflow as tf
 from tensorflow.keras.models import load_model
 import numpy as np
 import os
+import tensorflow as tf
 
 app = Flask(__name__)
 CORS(app)
 
 # Load the model
-model_path = "/Users/victoriale/Documents/ASL-Translation/model2_32.keras"
+model_path = "model2_32.keras"
 model = load_model(model_path)
 
 # Define ASL classes
@@ -47,14 +47,9 @@ def predict():
     print(f"DEBUG: Received file: {image_file.filename}")
     
     try:
-        # Read the image file
         image_np = np.frombuffer(image_file.read(), np.uint8)
         image = cv2.imdecode(image_np, cv2.IMREAD_COLOR)
-        
-        # Preprocess the image
         processed_image = preprocess_image(image)
-        
-        # Make prediction
         predictions = model.predict(processed_image)
         predicted_index = np.argmax(predictions, axis=1)[0]
         predicted_label = asl_classes[predicted_index]
