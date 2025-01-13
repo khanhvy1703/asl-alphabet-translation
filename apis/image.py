@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import cv2
 import tensorflow as tf
 from tensorflow.keras.models import load_model
@@ -6,6 +7,7 @@ import numpy as np
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 # Load the model
 model_path = "/Users/victoriale/Documents/ASL-Translation/model2_32.keras"
