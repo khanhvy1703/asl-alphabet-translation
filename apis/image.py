@@ -21,11 +21,11 @@ def preprocess_image(image, target_size=(32, 32)):
     - Resize to the target size.
     - Normalize pixel values.
     """
-    img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
-    img = cv2.resize(img, target_size)  # Resize to model input size
-    img = img / 255.0  # Normalize pixel values
-    img = np.expand_dims(img, axis=-1)  # Add channel dimension
-    img = np.expand_dims(img, axis=0)  # Add batch dimension
+    img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) 
+    img = cv2.resize(img, target_size) 
+    img = img / 255.0 
+    img = np.expand_dims(img, axis=-1) 
+    img = np.expand_dims(img, axis=0)
     return img
 
 @app.route('/predict', methods=['POST'])

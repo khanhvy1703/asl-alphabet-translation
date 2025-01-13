@@ -1,51 +1,24 @@
-import React, { useState } from "react";
-import { predictASL } from "./services/image";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
-  const [image, setImage] = useState(null);
-  const [prediction, setPrediction] = useState("");
-  const [error, setError] = useState("");
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-    setPrediction("");
-    setError("");
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    if (!image) {
-      setError("Please select an image first.");
-      return;
-    }
-
-    try {
-      const result = await predictASL(image);
-      setPrediction(result.prediction);
-    } catch (err) {
-      setError("An error occurred while processing the image.");
-    }
-  };
-
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>ASL Predictor</h1>
-      <form onSubmit={handleFormSubmit}>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button type="submit" style={{ marginLeft: "10px" }}>
-          Predict
-        </button>
-      </form>
-      {prediction && (
-        <div style={{ marginTop: "20px" }}>
-          <h2>Prediction: {prediction}</h2>
-        </div>
-      )}
-      {error && (
-        <div style={{ color: "red", marginTop: "20px" }}>
-          <h3>{error}</h3>
-        </div>
-      )}
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
