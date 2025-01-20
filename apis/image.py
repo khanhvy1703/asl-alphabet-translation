@@ -17,12 +17,6 @@ model = load_model(model_path)
 asl_classes = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ") + ['del', 'nothing', 'space']
 
 def preprocess_image(image, target_size=(32, 32)):
-    """
-    Preprocess the uploaded image:
-    - Convert it to grayscale.
-    - Resize to the target size.
-    - Normalize pixel values.
-    """
     img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) 
     img = cv2.resize(img, target_size) 
     img = img / 255.0 
@@ -30,8 +24,8 @@ def preprocess_image(image, target_size=(32, 32)):
     img = np.expand_dims(img, axis=0)
     return img
 
-@app.route('/predict', methods=['POST'])
-def predict():
+@app.route('/image-predict', methods=['POST'])
+def image_predict():
     """
     Predict ASL character from uploaded image.
     """
