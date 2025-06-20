@@ -10,8 +10,9 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the model
-model_path = "model2_32.keras"
+model_path = os.path.join(os.path.dirname(__file__), "model2_32.keras")
 model = load_model(model_path)
+print(f"DEBUG: Model loaded from {model_path}")
 
 # Define ASL classes
 asl_classes = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ") + ['del', 'nothing', 'space']
