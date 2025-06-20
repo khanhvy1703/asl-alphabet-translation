@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css'
 
 const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewURL, setPreviewURL] = useState<string | null>(null);
   const [prediction, setPrediction] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const API_URL = process.env.REACT_APP_API_ENDPOINT;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);
+      const file = event.target.files[0];
+      setSelectedFile(file);
+      setPreviewURL(URL.createObjectURL(file));
       setPrediction('');
       setError('');
     }
@@ -25,43 +28,49 @@ const App: React.FC = () => {
     formData.append('image', selectedFile);
 
     try {
-      const response = await axios.post(`${API_URL}/image-predict` || '', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      console.log(response)
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_ENDPOINT}/image-predict`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
 
       if (response.data.prediction) {
         setPrediction(response.data.prediction);
-      } else if (response.data.error) {
-        setError(response.data.error);
+      } else {
+        setError('Prediction failed.');
       }
     } catch (error: any) {
-      setError(error.response?.data?.error || 'An error occurred while making the prediction.');
+      setError(error.response?.data?.error || 'Prediction failed.');
     }
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div className="container">
       <h1>ASL Image Prediction</h1>
 
-      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <input type="file" accept="image/*" onChange={handleFileChange} className="input-file" />
 
-      <button onClick={handleSubmit} style={{ margin: '10px', padding: '10px 20px' }}>
+      <button onClick={handleSubmit} className="predict-button">
         Predict
       </button>
 
+      {previewURL && (
+        <div className="preview-container">
+          <img src={previewURL} alt="Selected" className="image-preview" />
+        </div>
+      )}
+
       {prediction && (
-        <div style={{ marginTop: '20px', color: 'green' }}>
-          <h3>Prediction: {prediction}</h3>
+        <div className="result">
+          <strong>Prediction:</strong> {prediction}
         </div>
       )}
 
       {error && (
-        <div style={{ marginTop: '20px', color: 'red' }}>
-          <h3>Error: {error}</h3>
+        <div className="result error">
+          <strong>Error:</strong> {error}
         </div>
       )}
     </div>
