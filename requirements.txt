@@ -1,5 +1,5 @@
 Flask
 flask-cors
-tensorflow==2.13
+tensorflow
 opencv-python
 numpy
