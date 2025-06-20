@@ -7,7 +7,7 @@ import os
 import tensorflow as tf
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load the model
 model_path = os.path.join(os.path.dirname(__file__), "model2_32.keras")

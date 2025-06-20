@@ -5,6 +5,7 @@ const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [prediction, setPrediction] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const API_URL = process.env.REACT_APP_API_ENDPOINT;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -24,7 +25,7 @@ const App: React.FC = () => {
     formData.append('image', selectedFile);
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/image-predict', formData, {
+      const response = await axios.post(`${API_URL}/image-predict` || '', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
