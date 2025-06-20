@@ -25,6 +25,10 @@ def preprocess_image(image, target_size=(32, 32)):
     img = np.expand_dims(img, axis=0)
     return img
 
+@app.route('/')
+def home():
+    return "Backend is running"
+
 @app.route('/image-predict', methods=['POST'])
 def image_predict():
     """
