@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: asl-image-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python apis/image.py
+    pythonVersion: 3.10
+    autoDeploy: true
